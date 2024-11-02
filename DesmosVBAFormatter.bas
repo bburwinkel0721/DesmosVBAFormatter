@@ -4,7 +4,7 @@ Sub CalculateScores()
     Dim ws As Worksheet
     Dim lastRow As Long, lastCol As Long
     Dim i As Long, j As Long
-
+    
     Set ws = ActiveSheet ' Apply to the active sheet
 
     ' Clear the second and third columns
@@ -17,6 +17,9 @@ Sub CalculateScores()
     ' Delete the last column
     ws.Columns(lastCol).Delete
     lastCol = lastCol - 1 ' Adjust lastCol to reflect the new last column
+    
+    ' Place raw variable
+    ws.Cells(1, 1).Value = "=4"
 
     ' Label the headers
     ws.Cells(1, 2).Value = "Raw Score"
@@ -37,7 +40,7 @@ Sub CalculateScores()
     ' Set formulas in each row below the headers
     For i = 2 To lastRow
         ' Set formula for "Raw Score" in column 2
-        ws.Cells(i, 2).Formula = "=4 * " & ws.Cells(i, 3).Address
+        ws.Cells(i, 2).Formula = "=" & ws.Cells(1, 1).Address & "*" & ws.Cells(i, 3).Address
 
         ' Set formula for "Percentage" in column 3
         ws.Cells(i, 3).Formula = "=SUM(" & ws.Cells(i, 4).Address & ":" & ws.Cells(i, lastCol).Address & ") / (COUNT(" & ws.Cells(i, 4).Address & ":" & ws.Cells(i, lastCol).Address & ") * 4)"
