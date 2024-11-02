@@ -51,5 +51,11 @@ Sub CalculateScores()
     For j = 2 To lastCol
         ws.Cells(lastRow + 1, j).Formula = "=AVERAGE(" & ws.Cells(2, j).Address & ":" & ws.Cells(lastRow, j).Address & ")"
     Next j
+    
+    'This next section applies our number formatting and resizing of cells
+    Columns("B:B").NumberFormat = "0.00"
+    Rows(lastRow + 1).NumberFormat = "0.00"
+    Columns("C:C").NumberFormat = "0.00%"
+    Columns("A:Z").EntireColumn.AutoFit
 
 End Sub
