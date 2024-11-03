@@ -16,6 +16,9 @@ This tool is designed to cleanly format CSV files exported from Desmos assessmen
 
 This tool makes it easy to analyze, interpret, and present Desmos assessment data, giving you a clean and organized file with meaningful formatting and insights.
 
+## Before
+![Logo](Resources/BeforeSample.png)
+## After
 ![Logo](Resources/Sample.png)
 Here is a [Google Sheets Version](https://docs.google.com/spreadsheets/d/12tEgGnu2XUWp_lysDMmaJoaqYPLFleDojGXLfr7j31c/copy) to Copy
 
