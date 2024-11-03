@@ -63,14 +63,15 @@ Sub CalculateScores()
     Columns("C:C").NumberFormat = "0.00%"
     Columns("A:Z").EntireColumn.AutoFit
     
-    'This section applies color formatting
-    ws.Range(ws.Cells(3, 1), ws.Cells(lastRow, 1)).Interior.Color = RGB(0, 200, 0)
+    'This section applies color formatting and styling to the table
     
+    '
     With ws.Range(ws.Cells(2, 1), ws.Cells(lastRow, lastCol))
         .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
         .Borders.Weight = xlThin             ' Set the thickness of the borders
     End With
     
+    ' Adds alternating color to the main section of the table
     For i = 2 To lastRow ' Start from row 2 if row 1 is a header
         If i Mod 2 = 0 Then
             ' Apply light red fill for even rows
@@ -80,7 +81,8 @@ Sub CalculateScores()
             ws.Range(ws.Cells(i, 1), ws.Cells(i, lastCol)).Interior.Color = RGB(255, 255, 255) ' White
         End If
     Next i
-    ' Loop through each cell in Column C from row 2 to the last used row
+    
+    ' This section adds conditional formatting for the grades for better grade analysis
     For Each cell In ws.Range("C3:C" & lastRow)
         If IsNumeric(cell.Value) Then ' Check if the cell contains a number
             Select Case cell.Value
@@ -98,24 +100,27 @@ Sub CalculateScores()
         End If
     Next cell
     
+    'Adjusts the font and sizeto be the same through out the spreadsheet
     With ws.Cells
         .Font.Name = "Calibri" ' Set the font name (change to desired font)
         .Font.Size = 12        ' Set the font size (change to desired size)
     End With
     
+    'Formatting for the header
     With ws.Range(ws.Cells(1, 1), ws.Cells(1, lastCol))
-        .Interior.Color = RGB(255, 153, 153) ' Light blue fill
+        .Interior.Color = RGB(255, 153, 153) ' Darker Red
         .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
         .Borders.Weight = xlThin             ' Set the thickness of the borders
     End With
     
+    'Formatting for the last row
     With ws.Range(ws.Cells(lastRow + 1, 1), ws.Cells(lastRow + 1, lastCol))
-        .Interior.Color = RGB(255, 153, 153) ' Light blue fill
+        .Interior.Color = RGB(255, 153, 153) ' Darker Red
         .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
         .Borders.Weight = xlThin             ' Set the thickness of the borders
     End With
     
-    ' Center align all cells in the worksheet
+    ' Center align all numeric values in the worksheet
     With ws.Range(ws.Cells(2, 2), ws.Cells(lastRow + 1, lastCol))
         .HorizontalAlignment = xlCenter
         .VerticalAlignment = xlCenter
