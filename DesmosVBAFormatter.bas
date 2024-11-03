@@ -65,22 +65,61 @@ Sub CalculateScores()
     
     'This section applies color formatting
     ws.Range(ws.Cells(3, 1), ws.Cells(lastRow, 1)).Interior.Color = RGB(0, 200, 0)
+    
+    With ws.Range(ws.Cells(2, 1), ws.Cells(lastRow, lastCol))
+        .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
+        .Borders.Weight = xlThin             ' Set the thickness of the borders
+    End With
+    
+    For i = 2 To lastRow ' Start from row 2 if row 1 is a header
+        If i Mod 2 = 0 Then
+            ' Apply light red fill for even rows
+            ws.Range(ws.Cells(i, 1), ws.Cells(i, lastCol)).Interior.Color = RGB(255, 204, 204) ' Light red
+        Else
+            ' Apply white fill for odd rows
+            ws.Range(ws.Cells(i, 1), ws.Cells(i, lastCol)).Interior.Color = RGB(255, 255, 255) ' White
+        End If
+    Next i
     ' Loop through each cell in Column C from row 2 to the last used row
     For Each cell In ws.Range("C3:C" & lastRow)
         If IsNumeric(cell.Value) Then ' Check if the cell contains a number
             Select Case cell.Value
                 Case Is >= 0.9
-                    cell.Interior.Color = RGB(0, 0, 255) ' Blue
+                    cell.Interior.Color = RGB(173, 216, 230) ' Light Blue
                 Case Is >= 0.8
-                    cell.Interior.Color = RGB(0, 255, 0) ' Green
+                    cell.Interior.Color = RGB(144, 238, 144) ' Light Green
                 Case Is >= 0.7
-                    cell.Interior.Color = RGB(255, 255, 0) ' Yellow
+                    cell.Interior.Color = RGB(255, 255, 153) ' Light Yellow
                 Case Is >= 0.6
-                    cell.Interior.Color = RGB(255, 165, 0) ' Orange
+                    cell.Interior.Color = RGB(255, 204, 153) ' Light Orange
                 Case Else
-                    cell.Interior.Color = RGB(255, 0, 0) ' Red
+                    cell.Interior.Color = RGB(255, 153, 153) ' Light Red
             End Select
         End If
     Next cell
+    
+    With ws.Cells
+        .Font.Name = "Calibri" ' Set the font name (change to desired font)
+        .Font.Size = 12        ' Set the font size (change to desired size)
+    End With
+    
+    With ws.Range(ws.Cells(1, 1), ws.Cells(1, lastCol))
+        .Interior.Color = RGB(255, 153, 153) ' Light blue fill
+        .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
+        .Borders.Weight = xlThin             ' Set the thickness of the borders
+    End With
+    
+    With ws.Range(ws.Cells(lastRow + 1, 1), ws.Cells(lastRow + 1, lastCol))
+        .Interior.Color = RGB(255, 153, 153) ' Light blue fill
+        .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
+        .Borders.Weight = xlThin             ' Set the thickness of the borders
+    End With
+    
+    ' Center align all cells in the worksheet
+    With ws.Range(ws.Cells(2, 2), ws.Cells(lastRow + 1, lastCol))
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+    End With
+
 
 End Sub
