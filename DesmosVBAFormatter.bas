@@ -27,7 +27,7 @@ Sub CalculateScores()
     lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
 
     ' Replace cells containing only "-" with 0
-    For i = 1 To lastRow
+    For i = 1 To lastRow + 1
         For j = 1 To lastCol
             If ws.Cells(i, j).Value = "-" Then
                 ws.Cells(i, j).Value = 0
@@ -43,7 +43,7 @@ Sub CalculateScores()
     ws.Cells(2, 1).Value = "Max Raw Score"
 
     ' Set formulas in each row below the headers
-    For i = 3 To lastRow
+    For i = 3 To lastRow + 1
         ' Set formula for "Raw Score" in column 2
         ws.Cells(i, 2).Formula = "=" & ws.Cells(2, 2).Address & "*" & ws.Cells(i, 3).Address
 
@@ -52,27 +52,27 @@ Sub CalculateScores()
     Next i
 
     ' Add a row for averages
-    ws.Cells(lastRow + 1, 1).Value = "Mean" ' Label for the average row
+    ws.Cells(lastRow + 2, 1).Value = "Mean" ' Label for the average row
     For j = 2 To lastCol
-        ws.Cells(lastRow + 1, j).Formula = "=AVERAGE(" & ws.Cells(2, j).Address & ":" & ws.Cells(lastRow, j).Address & ")"
+        ws.Cells(lastRow + 2, j).Formula = "=AVERAGE(" & ws.Cells(2, j).Address & ":" & ws.Cells(lastRow + 1, j).Address & ")"
     Next j
     
     'This next section applies our number formatting and resizing of cells
     Columns("B:B").NumberFormat = "0.00"
-    Rows(lastRow + 1).NumberFormat = "0.00"
+    Rows(lastRow + 2).NumberFormat = "0.00"
     Columns("C:C").NumberFormat = "0.00%"
     Columns("A:Z").EntireColumn.AutoFit
     
     'This section applies color formatting and styling to the table
     
     '
-    With ws.Range(ws.Cells(2, 1), ws.Cells(lastRow, lastCol))
+    With ws.Range(ws.Cells(2, 1), ws.Cells(lastRow + 1, lastCol))
         .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
         .Borders.Weight = xlThin             ' Set the thickness of the borders
     End With
     
     ' Adds alternating color to the main section of the table
-    For i = 2 To lastRow ' Start from row 2 if row 1 is a header
+    For i = 2 To lastRow + 1 ' Start from row 2 if row 1 is a header
         If i Mod 2 = 0 Then
             ' Apply light red fill for even rows
             ws.Range(ws.Cells(i, 1), ws.Cells(i, lastCol)).Interior.Color = RGB(255, 204, 204) ' Light red
@@ -83,7 +83,7 @@ Sub CalculateScores()
     Next i
     
     ' This section adds conditional formatting for the grades for better grade analysis
-    For Each cell In ws.Range("C3:C" & lastRow)
+    For Each cell In ws.Range("C3:C" & lastRow + 1)
         If IsNumeric(cell.Value) Then ' Check if the cell contains a number
             Select Case cell.Value
                 Case Is >= 0.9
@@ -114,14 +114,14 @@ Sub CalculateScores()
     End With
     
     'Formatting for the last row
-    With ws.Range(ws.Cells(lastRow + 1, 1), ws.Cells(lastRow + 1, lastCol))
+    With ws.Range(ws.Cells(lastRow + 2, 1), ws.Cells(lastRow + 2, lastCol))
         .Interior.Color = RGB(255, 153, 153) ' Darker Red
         .Borders.LineStyle = xlContinuous    ' Apply borders to all sides
         .Borders.Weight = xlThin             ' Set the thickness of the borders
     End With
     
     ' Center align all numeric values in the worksheet
-    With ws.Range(ws.Cells(2, 2), ws.Cells(lastRow + 1, lastCol))
+    With ws.Range(ws.Cells(2, 2), ws.Cells(lastRow + 2, lastCol))
         .HorizontalAlignment = xlCenter
         .VerticalAlignment = xlCenter
     End With
